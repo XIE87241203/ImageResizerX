@@ -16,7 +16,7 @@ from pathlib import Path
 try:
     from PIL import Image, ImageOps
 except Exception as exc:  # Pillow 依赖缺失或导入失败
-    print("未找到 Pillow 库，请先安装：pip install pillow")
+    print("Pillow not found. Please install it first: pip install pillow")
     raise
 
 try:
@@ -47,10 +47,10 @@ def resize_by_scale(input_path: str, original_scale: float, output_scale: float)
     # 规范化并检查路径
     path = Path(input_path).expanduser()
     if not path.exists():
-        raise FileNotFoundError(f"找不到文件: {path}")
+        raise FileNotFoundError(f"File not found: {path}")
 
     if original_scale <= 0 or output_scale <= 0:
-        raise ValueError("原始倍率与输出倍率必须大于 0")
+        raise ValueError("Original scale and target scale must be greater than 0")
 
     with Image.open(path) as im:
         width, height = im.size
@@ -88,22 +88,21 @@ def resize_by_scale(input_path: str, original_scale: float, output_scale: float)
 
 def _prompt_float(prompt: str) -> float:
     while True:
-        s = input(prompt).strip().replace("，", ",")
+        s = input(prompt).strip().replace(",", ",")
         try:
             v = float(s)
             if v <= 0:
-                print("请输入大于 0 的数字。")
+                print("Please enter a number greater than 0.")
                 continue
             return v
         except ValueError:
-            print("格式错误，请输入数字，例如 1、1.5、2。")
+            print("Invalid format. Please enter a number, e.g., 1, 1.5, 2.")
 
 
 def _prompt_scales(prompt: str) -> list[float]:
-    """提示输入多个倍率，逗号分隔，返回有效倍率列表（>0）。"""
+    """Prompt for multiple target scales (comma-separated) and return valid scales (>0)."""
     while True:
         raw = input(prompt).strip().replace("，", ",")
-        """列表推导式，只有满足条件的p才会被最前方的表达式处理，否则跳过"""
         parts = [p.strip() for p in raw.split(",") if p.strip()]
         values: list[float] = []
         ok = True
@@ -111,33 +110,33 @@ def _prompt_scales(prompt: str) -> list[float]:
             try:
                 v = float(p)
                 if v <= 0:
-                    print(f"倍率需大于 0，已忽略无效值: {p}")
+                    print(f"Scale must be > 0. Ignored invalid value: {p}")
                     ok = False
                     continue
                 values.append(v)
             except ValueError:
-                print(f"无法解析的倍率，已忽略: {p}")
+                print(f"Unable to parse scale. Ignored: {p}")
                 ok = False
         if values:
             return values
-        print("请至少输入一个有效倍率，例如：1.5,2,3。")
+        print("Please enter at least one valid scale, e.g., 1.5,2,3.")
 
 
 def _select_image_via_dialog() -> str | None:
-    """调用系统文件选择对话框选择图片，返回路径或 None。"""
+    """Open system file dialog to choose an image. Return path or None."""
     if tk is None or filedialog is None:
-        # 兼容无 tkinter 环境：回退为控制台输入
-        p = input("请输入图片路径（可拖入）：").strip().strip('"')
+        # Fallback when tkinter is unavailable: ask for the path in console
+        p = input("Please enter the image path: ").strip().strip('"')
         return p or None
 
     root = tk.Tk()
     root.withdraw()
     root.update()
     filetypes = [
-        ("图片文件", "*.png *.jpg *.jpeg *.webp *.bmp *.gif"),
-        ("所有文件", "*.*"),
+        ("Image files", "*.png *.jpg *.jpeg *.webp *.bmp *.gif"),
+        ("All files", "*.*"),
     ]
-    path = filedialog.askopenfilename(title="选择图片", filetypes=filetypes)
+    path = filedialog.askopenfilename(title="Choose Image", filetypes=filetypes)
     try:
         root.destroy()
     except Exception:
@@ -146,18 +145,18 @@ def _select_image_via_dialog() -> str | None:
 
 
 def main():
-    # 流程：文件对话框选择图片 → 输入倍率 → 缩放并保存
+    # Flow: choose image via dialog → input scales → resize and save
     img_path = _select_image_via_dialog()
     if not img_path:
-        print("未选择图片，已取消。")
+        print("No image selected. Cancelled.")
         return
 
-    original = _prompt_float("请输入原始倍率（例如 1、2）：")
-    targets = _prompt_scales("请输入输出倍率（可多个，用逗号分隔，例如 1.5,2,3）：")
+    original = _prompt_float("Enter original scale (e.g., 1 or 2): ")
+    targets = _prompt_scales("Enter target scales (comma-separated, e.g., 1.5,2,3): ")
 
     for t in targets:
         out_path = resize_by_scale(img_path, original, t)
-        print(f"已输出：{out_path}")
+        print(f"Saved: {out_path}")
 
 
 if __name__ == "__main__":
