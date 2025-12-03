@@ -1,8 +1,8 @@
 > 中文说明请见：[`README_ZH.md`](README_ZH.md)
 
-## MyImageUtils
+## CollectionOfUsefulTools
 
-MyImageUtils is a collection of useful web-based image tools, currently including a multi-scale image resizer and an image comparison tool.
+CollectionOfUsefulTools is a collection of useful web-based image tools, currently including a multi-scale image resizer and an image comparison tool.
 
 ### Features
 

@@ -1,6 +1,6 @@
-## MyImageUtils
+## CollectionOfUsefulTools
 
-MyImageUtils 是一个实用的网页版图片工具合集，目前包含多倍率图片缩放工具和图片对比工具。
+CollectionOfUsefulTools 是一个实用的网页版图片工具合集，目前包含多倍率图片缩放工具和图片对比工具。
 
 ### 主要特性
 
