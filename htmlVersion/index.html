@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>图片倍率缩放工具 - 网页版</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="language-switcher">
+        <button class="lang-btn" id="langZh" data-lang="zh">中文</button>
+        <button class="lang-btn" id="langEn" data-lang="en">English</button>
+      </div>
+      <h1 id="title">🖼️ 图片倍率缩放工具</h1>
+      <p class="subtitle" id="subtitle">支持多倍率批量处理，高质量缩放算法</p>
+
+      <div class="upload-area" id="uploadArea">
+        <div class="upload-icon">📁</div>
+        <div class="upload-text" id="uploadText">点击或拖拽图片到此处</div>
+        <div class="upload-hint" id="uploadHint">支持 PNG、JPG、JPEG、WebP、BMP、GIF</div>
+        <input type="file" id="fileInput" accept="image/*" />
+      </div>
+
+      <div class="preview-section" id="previewSection">
+        <img id="previewImage" class="preview-image" alt="预览" />
+        <div class="image-info" id="imageInfo"></div>
+        <div class="remove-file" id="removeFile">移除图片</div>
+      </div>
+
+      <div class="form-group">
+        <label for="originalScale" id="originalScaleLabel">原始倍率</label>
+        <input type="number" id="originalScale" value="1" min="0.1" step="0.1" />
+        <div class="input-hint" id="originalScaleHint">输入图片的原始倍率（例如：1x、2x）</div>
+      </div>
+
+      <div class="form-group">
+        <label for="outputScales" id="outputScalesLabel">输出倍率（多个用逗号分隔）</label>
+        <input type="text" id="outputScales" />
+        <div class="input-hint" id="outputScalesHint">支持多个倍率，用英文或中文逗号分隔</div>
+      </div>
+
+      <button class="btn" id="processBtn" disabled>开始处理</button>
+
+      <div class="error" id="errorMsg"></div>
+
+      <div class="progress" id="progress">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text" id="progressText">处理中...</div>
+      </div>
+
+      <div class="result-section" id="resultSection">
+        <h3 id="resultTitle">处理结果</h3>
+        <div id="resultList"></div>
+        <button class="btn download-all-btn" id="downloadAllBtn">下载全部（ZIP）</button>
+      </div>
+    </div>
+
+    <!-- JSZip 库用于打包下载 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- 多语言支持 -->
+    <script src="i18n.js"></script>
+    <!-- 应用主逻辑 -->
+    <script src="app.js"></script>
+  </body>
+</html>

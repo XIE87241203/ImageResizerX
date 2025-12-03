@@ -15,6 +15,36 @@ ImageResizerX is a simple and practical multi-scale image resizer:
 - Common formats supported: PNG/JPG/JPEG/WebP/BMP/GIF
 - Easy to use: pick a file, type scales, done
 
+### Versions
+
+This project provides two versions:
+
+1. **Python CLI Version** (`ImageResizerX.py`): For local use, requires Python and dependencies
+2. **Web Version** (`htmlVersion/` directory): Pure frontend implementation, no installation needed, just open in browser
+
+#### Web Version Usage
+
+The web version is located in the `htmlVersion/` directory and includes:
+
+- `index.html` - Main page
+- `style.css` - Stylesheet
+- `app.js` - Application logic
+
+**How to use:**
+
+1. Simply open `htmlVersion/index.html` in your browser
+2. Click or drag & drop to upload an image
+3. Enter original scale and target scales (comma-separated, multiple supported)
+4. Click "开始处理" (Start Processing), then download individually or as a ZIP
+
+**Web Version Features:**
+
+- ✅ No Python or dependencies required
+- ✅ All processing done locally in browser (privacy-friendly)
+- ✅ Drag & drop support
+- ✅ Modern UI design
+- ✅ Batch download as ZIP file
+
 ### Requirements
 
 - Python 3.9+
