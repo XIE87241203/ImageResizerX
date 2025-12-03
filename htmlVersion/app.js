@@ -34,9 +34,11 @@ function formatScale(scale) {
 function formatFileSize(bytes) {
   if (bytes === 0) return '0 B';
   const k = 1024;
-  const sizes = ['B', 'KB', 'MB'];
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+  // 确保索引不超过数组长度，防止越界
+  const index = Math.min(i, sizes.length - 1);
+  return Math.round((bytes / Math.pow(k, index)) * 100) / 100 + ' ' + sizes[index];
 }
 
 // 更新 UI 文本
@@ -176,8 +178,38 @@ removeFile.addEventListener('click', () => {
   fileInput.value = '';
 });
 
+// 根据文件扩展名或 MIME 类型获取正确的 MIME 类型
+function getMimeType(fileName, mimeType) {
+  // 首先尝试从文件扩展名检测
+  const ext = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+  const extToMime = {
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.webp': 'image/webp',
+    '.bmp': 'image/bmp',
+    '.gif': 'image/gif',
+  };
+
+  if (extToMime[ext]) {
+    return extToMime[ext];
+  }
+
+  // 如果扩展名无法识别，尝试使用提供的 MIME 类型
+  if (mimeType && mimeType.startsWith('image/')) {
+    // 验证 MIME 类型是否受支持
+    const supportedMimes = ['image/png', 'image/jpeg', 'image/webp', 'image/bmp', 'image/gif'];
+    if (supportedMimes.includes(mimeType)) {
+      return mimeType;
+    }
+  }
+
+  // 默认使用 PNG（无损格式，通用支持）
+  return 'image/png';
+}
+
 // 使用 Canvas 高质量缩放图片
-function resizeImage(image, originalScale, outputScale) {
+function resizeImage(image, originalScale, outputScale, mimeType = 'image/png') {
   return new Promise(resolve => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -195,7 +227,11 @@ function resizeImage(image, originalScale, outputScale) {
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(image, 0, 0, newWidth, newHeight);
 
-    // 转换为 Blob
+    // 根据 MIME 类型确定质量参数
+    // JPEG 使用质量参数，其他格式使用默认值
+    const quality = mimeType === 'image/jpeg' ? 0.95 : undefined;
+
+    // 转换为 Blob，使用检测到的 MIME 类型
     canvas.toBlob(
       blob => {
         resolve({
@@ -205,8 +241,8 @@ function resizeImage(image, originalScale, outputScale) {
           scale: outputScale,
         });
       },
-      'image/png',
-      1.0,
+      mimeType,
+      quality,
     );
   });
 }
@@ -272,10 +308,13 @@ async function processImage() {
   resultSection.classList.remove('show');
   processedImages = []; // 清空之前的处理结果
 
+  // 5. 加载原始图片到内存
+  const img = new Image();
+  let objectURL = null;
+
   try {
-    // 5. 加载原始图片到内存
-    const img = new Image();
-    img.src = URL.createObjectURL(currentFile);
+    objectURL = URL.createObjectURL(currentFile);
+    img.src = objectURL;
 
     // 等待图片加载完成
     await new Promise((resolve, reject) => {
@@ -295,8 +334,11 @@ async function processImage() {
         total: outputScales.length,
       });
 
+      // 检测原始文件的 MIME 类型
+      const originalMimeType = getMimeType(currentFile.name, currentFile.type);
+
       // 执行图片缩放操作
-      const result = await resizeImage(img, originalScale, outputScale);
+      const result = await resizeImage(img, originalScale, outputScale, originalMimeType);
 
       // 7. 生成符合命名规则的文件名
       // 格式：原名-倍率x.扩展名（例如：image-2x.png）
@@ -321,14 +363,16 @@ async function processImage() {
     displayResults(); // 显示处理结果列表
     progress.classList.remove('show'); // 隐藏进度条
     processBtn.disabled = false; // 恢复处理按钮
-
-    // 10. 清理资源
-    URL.revokeObjectURL(img.src); // 释放图片对象 URL
   } catch (error) {
     // 错误处理：显示错误信息并恢复 UI 状态
     showError('errors.processFailed', { error: error.message });
     progress.classList.remove('show');
     processBtn.disabled = false;
+  } finally {
+    // 10. 清理资源：无论成功或失败都要释放 object URL，防止内存泄漏
+    if (objectURL) {
+      URL.revokeObjectURL(objectURL);
+    }
   }
 }
 
@@ -390,16 +434,24 @@ async function downloadAll() {
     zip.file(item.fileName, item.blob);
   }
 
-  zip.generateAsync({ type: 'blob' }).then(content => {
-    const url = URL.createObjectURL(content);
+  let objectURL = null;
+  try {
+    const content = await zip.generateAsync({ type: 'blob' });
+    objectURL = URL.createObjectURL(content);
     const a = document.createElement('a');
-    a.href = url;
+    a.href = objectURL;
     a.download = `resized_images_${Date.now()}.zip`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  });
+  } catch (error) {
+    showError('errors.processFailed', { error: error.message });
+  } finally {
+    // 确保无论成功或失败都释放 object URL，防止内存泄漏
+    if (objectURL) {
+      URL.revokeObjectURL(objectURL);
+    }
+  }
 }
 
 // 绑定事件
