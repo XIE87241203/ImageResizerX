@@ -1,0 +1,88 @@
+@import '../common/color_variables.css'; /* 引入颜色变量文件 */
+
+.compare-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.upload-column {
+  flex: 1;
+}
+
+.compare-view {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--shadow-light);
+  display: none;
+  background-image: linear-gradient(45deg, var(--compare-background-pattern-color) 25%, transparent 25%, transparent 75%, var(--compare-background-pattern-color) 75%, var(--compare-background-pattern-color)),
+    linear-gradient(45deg, var(--compare-background-pattern-color) 25%, transparent 25%, transparent 75%, var(--compare-background-pattern-color) 75%, var(--compare-background-pattern-color));
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+.compare-view.show {
+  display: block;
+}
+
+.compare-img {
+  width: 100%;
+  display: block;
+  user-select: none;
+}
+
+.compare-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.controls {
+  margin: 20px 0;
+  padding: 15px;
+  background: var(--upload-area-bg);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+input[type='range'] {
+  width: 200px;
+}
+
+#sideBySideView {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+#sideBySideView > div {
+  flex: 1;
+}
+
+#sideBySideView img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+#sideBySideView div {
+  text-align: center;
+  margin-top: 5px;
+  color: var(--text-color-medium);
+}

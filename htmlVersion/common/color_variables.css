@@ -1,0 +1,24 @@
+/* 颜色变量 */
+:root {
+  --primary-color: #667eea; /* 主色调 */
+  --secondary-color: #764ba2; /* 次要色调 */
+  --background-gradient-start: #667eea; /* 背景渐变开始颜色 */
+  --background-gradient-end: #764ba2; /* 背景渐变结束颜色 */
+  --header-bg-gradient-start: rgba(102, 126, 234, 0.9); /* 头部背景渐变开始颜色 (带透明度) */
+  --header-bg-gradient-end: rgba(118, 75, 162, 0.9); /* 头部背景渐变结束颜色 (带透明度) */
+  --white-color: white; /* 白色 */
+  --text-color-dark: #333; /* 深色文本 */
+  --text-color-medium: #666; /* 中等色文本 */
+  --text-color-light: #999; /* 浅色文本 */
+  --border-color-light: #e0e0e0; /* 浅色边框 */
+  --upload-area-bg: #f8f9ff; /* 上传区域背景 */
+  --upload-area-hover-bg: #f0f2ff; /* 上传区域悬停背景 */
+  --upload-area-dragover-bg: #e8ebff; /* 上传区域拖拽背景 */
+  --error-bg: #fee; /* 错误提示背景 */
+  --error-color: #c33; /* 错误提示文字颜色 */
+  --lang-btn-bg: #f0f0f0; /* 语言按钮背景 */
+  --lang-btn-hover-bg: #e0e0e0; /* 语言按钮悬停背景 */
+  --compare-background-pattern-color: #eee; /* 比较视图背景图案颜色 */
+  --shadow-light: rgba(0, 0, 0, 0.1); /* 浅阴影 */
+  --download-btn-hover-bg: #5568d3; /* 下载按钮悬停背景 */
+}
