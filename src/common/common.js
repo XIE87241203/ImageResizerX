@@ -1,5 +1,15 @@
 // 通用工具函数
 
+// 页面加载完成后调用初始化函数
+document.addEventListener('DOMContentLoaded', initLanguage);
+// 在语言改变时更新按钮状态和返回首页链接文本
+window.addEventListener('languageChanged', () => {
+    updateLanguageButtonStates();
+    refreshTranslation()
+});
+
+
+
 /**
  * 格式化文件大小
  * @param {number} bytes 文件大小（字节）
@@ -12,6 +22,16 @@ function formatFileSize(bytes) {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     const index = Math.min(i, sizes.length - 1);
     return Math.round((bytes / Math.pow(k, index)) * 100) / 100 + ' ' + sizes[index];
+}
+
+function refreshTranslation(){
+    // 获取所有带有 data-i18n 属性的元素
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (key) {
+            element.textContent = translation(key);
+        }
+    });
 }
 
 /**
@@ -47,21 +67,16 @@ function getMimeType(fileName, mimeType) {
 
 /**
  * 显示错误信息
- * @param {string} messageKey 错误信息或翻译键值
+ * @param {string} message 错误信息
  * @param {object} params 翻译参数
  */
-function showError(messageKey, params = {}) {
+function showError(message) {
     const errorMsg = document.getElementById('errorMsg');
     if (!errorMsg) {
-        console.error('Error element #errorMsg not found:', messageKey);
-        alert(typeof t === 'function' ? t(messageKey, params) : messageKey);
+        console.error('Error element #errorMsg not found:', message);
+        alert(message);
         return;
     }
-
-    const message = typeof t === 'function' && typeof messageKey === 'string' && messageKey.startsWith('errors.')
-        ? t(messageKey, params)
-        : messageKey;
-
     errorMsg.textContent = message;
     errorMsg.classList.add('show');
 
@@ -123,33 +138,17 @@ function bindLanguageSwitchers() {
 }
 
 /**
- * 更新返回首页按钮的文本
- */
-function updateBackToHomeLinkText() {
-    const backToHomeLink = document.getElementById('backToHomeLink');
-    if (backToHomeLink && typeof t === 'function') {
-        backToHomeLink.textContent = t('backToHome');
-    }
-}
-
-// 在语言改变时更新按钮状态和返回首页链接文本
-window.addEventListener('languageChanged', () => {
-    updateLanguageButtonStates();
-    updateBackToHomeLinkText();
-});
-
-/**
  * 生成通用头部HTML字符串
  * @returns {string} 通用头部HTML字符串
  */
 function generateCommonHeaderHtml() {
     return `
 <header class="common-header">
-    <a href="../index.html" class="nav-link back-to-home-btn" id="backToHomeLink"><span>返回</span></a>
+    <a href="../../../index.html" class="nav-link back-to-home-btn" id="backToHomeLink" data-i18n="common.backToHome"><span></span></a>
     <div class="header-center">
         <div class="language-switcher">
-            <button class="lang-btn" id="langZh" data-lang="zh">中文</button>
-            <button class="lang-btn" id="langEn" data-lang="en">English</button>
+            <button class="lang-btn" id="langZh" data-lang="zh" data-i18n="common.langZh"></button>
+            <button class="lang-btn" id="langEn" data-lang="en" data-i18n="common.langEn"></button>
         </div>
     </div>
 </header>
@@ -184,15 +183,11 @@ function loadCommonHeader(placeholderId) {
         } else {
             // 对于其他页面，显示返回首页按钮，并确保 href 指向父目录的 index.html
             backToHomeLink.style.display = 'flex'; // 或者 'block', 'inline-flex' 等，取决于你的 CSS 样式
-            // 如果当前页面在子目录，如 image_resize/resize.html，那么 ../index.html 是正确的路径
-            backToHomeLink.href = '../index.html';
+            // 如果当前页面在子目录，如 image_resize/resize.html，那么 ../../../index.html 是正确的路径
+            backToHomeLink.href = '../../../index.html';
         }
-        updateBackToHomeLinkText(); // 在设置完显示状态后更新文本
     }
 
     // 绑定语言切换按钮事件（确保在头部加载后绑定）
     bindLanguageSwitchers();
-
-    // 初始加载时更新返回首页链接文本
-    updateBackToHomeLinkText();
 }

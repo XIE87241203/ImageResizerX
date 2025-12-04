@@ -1,5 +1,5 @@
 // image_resize.js
-import { ImageUploader } from '../common/imageUploadModule.js';
+import { ImageUploader } from '../../../common/view/imageUploadModule.js';
 
 // 全局变量
 let currentFile = null;
@@ -52,22 +52,6 @@ function handleFileChangeCallback(id, file, dataUrl) {
 
 // 更新 UI 文本
 function updateUI() {
-  if (document.getElementById('title')) document.getElementById('title').textContent = `🖼️ ${t('title')}`;
-  if (document.getElementById('subtitle')) document.getElementById('subtitle').textContent = t('subtitle');
-  // uploadText, uploadHint, previewImage.alt, removeFile 的文本更新由 ImageUploader 内部处理
-  if (document.getElementById('originalScaleLabel')) document.getElementById('originalScaleLabel').textContent = t('originalScale');
-  if (document.getElementById('originalScale')) document.getElementById('originalScale').placeholder = t('originalScalePlaceholder');
-  if (document.getElementById('originalScaleHint')) document.getElementById('originalScaleHint').textContent = t('originalScaleHint');
-  if (document.getElementById('outputScalesLabel')) document.getElementById('outputScalesLabel').textContent = t('outputScales');
-  if (document.getElementById('outputScales')) document.getElementById('outputScales').placeholder = t('outputScalesPlaceholder');
-  if (document.getElementById('outputScalesHint')) document.getElementById('outputScalesHint').textContent = t('outputScalesHint');
-  if (document.getElementById('processBtn')) document.getElementById('processBtn').textContent = t('processBtn');
-  if (document.getElementById('resultTitle')) document.getElementById('resultTitle').textContent = t('resultTitle');
-  if (document.getElementById('downloadAllBtn')) document.getElementById('downloadAllBtn').textContent = t('downloadAll');
-
-  // 更新文档标题
-  document.title = `${t('title')} - Web Version`;
-
   // 如果已有结果，更新结果列表
   if (processedImages.length > 0) {
     displayResults();
@@ -127,7 +111,7 @@ async function processImage() {
   // 1. 验证是否已选择文件
   const fileToProcess = imageUploader.getFile();
   if (!fileToProcess) {
-    showError('errors.noFile');
+    showError(translation('imageResize.errors.noFile'));
     return;
   }
 
@@ -137,13 +121,13 @@ async function processImage() {
 
   // 验证原始倍率是否为有效数字且大于 0
   if (isNaN(originalScale) || originalScale <= 0) {
-    showError('errors.invalidOriginalScale');
+    showError(translation('imageResize.errors.invalidOriginalScale'));
     return;
   }
 
   // 验证是否输入了输出倍率
   if (!outputScalesStr) {
-    showError('errors.noOutputScales');
+    showError(translation('imageResize.errors.noOutputScales'));
     return;
   }
 
@@ -163,7 +147,7 @@ async function processImage() {
 
   // 验证是否至少有一个有效的输出倍率
   if (outputScales.length === 0) {
-    showError('errors.invalidOutputScales');
+    showError(translation('imageResize.errors.invalidOutputScales'));
     return;
   }
 
@@ -172,7 +156,7 @@ async function processImage() {
   progress.classList.add('show');
   progressFill.style.width = '0%';
   // 修正进度文本中 current 的初始值，使其从 1 开始
-  progressText.textContent = t('processingScale', {
+  progressText.textContent = translation('imageResize.processingScale', {
     scale: formatScale(outputScales[0] || 1), // 假设第一个输出倍率，如果不存在则默认为1
     current: 0,
     total: outputScales.length,
@@ -201,7 +185,7 @@ async function processImage() {
 
       // 更新进度条和进度文本
       progressFill.style.width = `${((i + 1) / outputScales.length) * 100}%`;
-      progressText.textContent = t('processingScale', {
+      progressText.textContent = translation('imageResize.processingScale', {
         scale: formatScale(outputScale),
         current: i + 1,
         total: outputScales.length,
@@ -238,7 +222,7 @@ async function processImage() {
     processBtn.disabled = false; // 恢复处理按钮
   } catch (error) {
     // 错误处理：显示错误信息并恢复 UI 状态
-    showError('errors.processFailed', { error: error.message });
+    showError(translation('imageResize.errors.processFailed', { error: error.message }));
     progress.classList.remove('show');
     processBtn.disabled = false;
   } finally {
@@ -260,7 +244,7 @@ function displayResults() {
                         <div class="result-name">${item.fileName}</div>
                         <div class="result-size">${item.width} × ${item.height} | ${formatFileSize(item.size)}</div>
                     </div>
-                    <button class="download-btn" data-index="${index}">${t('download')}</button>
+                    <button class="download-btn" data-index="${index}">${translation('imageResize.download')}</button>
                 `;
     resultList.appendChild(resultItem);
   });
@@ -319,7 +303,7 @@ async function downloadAll() {
     a.click();
     document.body.removeChild(a);
   } catch (error) {
-    showError('errors.processFailed', { error: error.message });
+    showError(translation('imageResize.errors.processFailed', { error: error.message }));
   } finally {
     // 确保无论成功或失败都释放 object URL，防止内存泄漏
     if (objectURL) {
@@ -345,12 +329,9 @@ if (outputScalesInput) {
 }
 
 // 页面初始化函数
-async function initResizePage() {
+function initResizePage() {
     // 首先加载通用头部
-    await loadCommonHeader('commonHeaderPlaceholder');
-
-    // 初始化语言设置
-    initLanguage();
+    loadCommonHeader('commonHeaderPlaceholder');
 
     // 初始化 ImageUploader
     imageUploader = new ImageUploader('imageUploadContainer', 'main', handleFileChangeCallback);
@@ -359,8 +340,4 @@ async function initResizePage() {
     updateUI();
 }
 
-// 绑定语言改变事件，确保在头部加载后绑定
-window.addEventListener('languageChanged', updateUI);
-
-// 页面加载完成后调用初始化函数
-document.addEventListener('DOMContentLoaded', initResizePage);
+initResizePage()

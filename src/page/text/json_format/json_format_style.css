@@ -1,0 +1,54 @@
+/* jsonInput 文本输入框样式 */
+#jsonInput {
+  width: 100%;
+  height: 200px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-family: 'Roboto Mono', 'Courier New', monospace; /* 使用等宽字体 */
+  font-size: 14px;
+  resize: vertical; /* 允许垂直方向调整大小 */
+}
+
+/* jsonOutput 文本输出框样式 */
+#jsonOutput {
+  width: 100%;
+  height: 250px;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--secondary-background-color); /* 次级背景色 */
+  font-family: 'Roboto Mono', 'Courier New', monospace; /* 使用等宽字体 */
+  font-size: 14px;
+  white-space: pre-wrap; /* 保留空白符和换行 */
+  word-wrap: break-word; /* 允许长单词换行 */
+  resize: vertical; /* 允许垂直方向调整大小 */
+}
+
+/* formatBtn 格式化按钮样式 */
+#formatBtn {
+  padding: 10px 20px;
+  background-color: var(--primary-button-background-color);
+  color: var(--primary-button-text-color);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px; /* 按钮下方间距 */
+}
+
+/* formatBtn 格式化按钮悬停样式 */
+#formatBtn:hover {
+  background-color: var(--primary-button-hover-background-color);
+}
+
+/* jsonInputLabel 和 jsonOutputLabel 标签样式 */
+#jsonInputLabel,
+#jsonOutputLabel {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--text-color);
+}

@@ -4,22 +4,34 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>常用小工具合集 - 网页版</title>
+    <title data-i18n="common.indexPageTitle"></title>
+    <link rel="stylesheet" href="common/color_variables.css"> <!-- 引入颜色变量文件，确保在其他样式表之前加载 -->
     <link rel="stylesheet" href="common/style.css" />
+    <link rel="stylesheet" href="index_style.css" />
 </head>
 
 <body>
     <!-- 通用头部占位符 -->
     <div id="commonHeaderPlaceholder"></div>
 
-    <div class="container" style="max-width: 600px; text-align: center; padding-top: 50px;">
-        <h1 id="indexTitle">🛠️ 常用小工具合集</h1>
-        <p class="subtitle" id="indexSubtitle">多种实用小工具，助您轻松解决日常问题</p>
+    <div class="container">
+        <h1 id="indexTitle" data-i18n="common.indexPageTitle"></h1>
+        <p class="subtitle" id="indexSubtitle" data-i18n="common.indexSubtitle"></p>
 
-        <div class="tool-list" style="margin-top: 40px;">
-            <a href="image_resize/image_resize.html" class="btn tool-link" id="resizeToolLink">图片倍率缩放工具</a>
-            <a href="image_compare/image_compare.html" class="btn tool-link" id="compareToolLink" style="margin-top: 20px;">图片对比工具</a>
-            <a href="text_compare/text_compare.html" class="btn tool-link" id="textCompareToolLink" style="margin-top: 20px;">文本对比工具</a>
+        <div class="tool-list">
+            <!-- 图片工具组 -->
+            <h2 class="tool-group-title" data-i18n="common.imageToolsTitle"></h2>
+            <div class="image-tools">
+                <a href="page/image/resize/image_resize.html" class="btn tool-link" id="resizeToolLink" data-i18n="common.resizeToolLink"></a>
+                <a href="page/image/compare/image_compare.html" class="btn tool-link" id="compareToolLink" data-i18n="common.compareToolLink"></a>
+            </div>
+
+            <!-- 文本工具组 -->
+            <h2 class="tool-group-title" data-i18n="common.textToolsTitle"></h2>
+            <div class="text-tools">
+                <a href="page/text/compare/text_compare.html" class="btn tool-link" id="textCompareToolLink" data-i18n="common.textCompareToolLink"></a>
+                <a href="page/text/json_format/json_format.html" class="btn tool-link" id="jsonFormatToolLink" data-i18n="common.jsonFormatToolLink"></a>
+            </div>
         </div>
     </div>
 

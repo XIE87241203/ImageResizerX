@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="imageResize.title"></title>
+    <link rel="stylesheet" href="../../../common/color_variables.css"> <!-- 引入颜色变量文件，确保在其他样式表之前加载 -->
+    <link rel="stylesheet" href="../../../common/style.css">
+    <link rel="stylesheet" href="image_resize_style.css">
+</head>
+
+<body>
+  <!-- 通用头部占位符 -->
+  <div id="commonHeaderPlaceholder"></div>
+
+  <div class="container">
+    <h1 id="title" data-i18n="imageResize.title">🖼️ 图片倍率缩放工具</h1>
+    <p class="subtitle" id="subtitle" data-i18n="imageResize.subtitle">支持多倍率批量处理，高质量缩放算法</p>
+
+    <!-- 图片上传模块容器 -->
+    <div id="imageUploadContainer"></div>
+
+    <div class="form-group">
+      <label for="originalScale" id="originalScaleLabel" data-i18n="imageResize.originalScale">原始倍率</label>
+      <input type="number" id="originalScale" value="1" min="0.1" step="0.1" />
+      <div class="input-hint" id="originalScaleHint" data-i18n="imageResize.originalScaleHint">输入图片的原始倍率（例如：1x、2x）</div>
+    </div>
+
+    <div class="form-group">
+      <label for="outputScales" id="outputScalesLabel" data-i18n="imageResize.outputScales">输出倍率（多个用逗号分隔）</label>
+      <input type="text" id="outputScales" />
+      <div class="input-hint" id="outputScalesHint" data-i18n="imageResize.outputScalesHint">支持多个倍率，用英文或中文逗号分隔</div>
+    </div>
+
+    <button class="full-width-btn" id="processBtn" disabled data-i18n="imageResize.processBtn">开始处理</button>
+
+    <div class="error" id="errorMsg"></div>
+
+    <div class="progress" id="progress">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-text" id="progressText" data-i18n="imageResize.processing">处理中...</div>
+    </div>
+
+    <div class="result-section" id="resultSection">
+      <h3 id="resultTitle" data-i18n="imageResize.resultTitle">处理结果</h3>
+      <div id="resultList"></div>
+      <button class="full-width-btn" id="downloadAllBtn" data-i18n="imageResize.downloadAll">下载全部（ZIP）</button>
+    </div>
+  </div>
+
+  <!-- JSZip 库用于打包下载 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <!-- 多语言支持 -->
+  <script src="../../../common/i18n.js"></script>
+  <!-- 通用 JavaScript 工具函数 -->
+  <script src="../../../common/common.js"></script>
+  <!-- 图片上传模块 -->
+  <script type="module" src="../../../common/view/imageUploadModule.js"></script>
+  <!-- 页面逻辑 -->
+  <script type="module" src="image_resize.js"></script>
+</body>
+
+</html>

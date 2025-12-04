@@ -1,9 +1,24 @@
-@import 'color_variables.css'; /* 引入颜色变量文件 */
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* 主标题样式 */
+h1 {
+  color: var(--text-color-dark);
+  margin-bottom: 10px;
+  font-size: 28px;
+  text-align: center;
+}
+
+/* 副标题样式 */
+.subtitle {
+  color: var(--text-color-medium);
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 14px;
 }
 
 body {
@@ -69,20 +84,6 @@ body {
   max-width: 600px;
   width: 100%;
   margin: 20px auto; /* 水平居中容器并添加顶部外边距 */
-}
-
-h1 {
-  color: var(--text-color-dark);
-  margin-bottom: 10px;
-  font-size: 28px;
-  text-align: center;
-}
-
-.subtitle {
-  color: var(--text-color-medium);
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 14px;
 }
 
 .upload-area {
@@ -189,8 +190,11 @@ input[type='text']:focus {
   margin-top: 5px;
 }
 
-.btn {
-  width: 100%;
+/* 占满宽度的按钮样式 */
+.full-width-btn {
+  display: block; /* 使按钮成为块级元素 */
+  width: 100%; /* 宽度占满父容器 */
+  margin: 0 auto; /* 水平居中 */
   padding: 14px;
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   color: var(--white-color);
@@ -200,19 +204,32 @@ input[type='text']:focus {
   font-weight: 500;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
-  margin-top: 10px;
 }
 
-.btn:hover {
+.btn {
+  flex-grow: 1; /* 允许按钮在 flex 容器中增长 */
+  max-width: 250px; /* 设置最大宽度，防止按钮过宽 */
+  padding: 14px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: var(--white-color);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.full-width-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4); /* 保留原始 rgba 值 */
 }
 
-.btn:active {
+.full-width-btn:active {
   transform: translateY(0);
 }
 
-.btn:disabled {
+.full-width-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;

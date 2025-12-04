@@ -1,0 +1,49 @@
+/* index.html 页面的样式 */
+.container {
+    max-width: 600px;
+    text-align: center;
+    padding-top: 50px;
+}
+
+/* 工具列表容器样式 */
+.tool-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px; /* 按钮之间的间距 */
+  margin-top: 10px; /* 与上方的副标题保持距离 */
+}
+
+/* 工具组标题样式 */
+.tool-group-title {
+  width: 100%; /* 标题占据整行 */
+  text-align: center;
+  color: var(--primary-color); /* 使用主题色 */
+  font-size: 22px;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.tool-group-title::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 60px; /* 下划线宽度 */
+  height: 3px;
+  background: var(--secondary-color); /* 下划线颜色 */
+  border-radius: 2px;
+}
+
+/* 各工具组容器样式 */
+.image-tools,
+.text-tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px; /* 组内按钮之间的间距 */
+  width: 100%; /* 确保工具组容器占据 tool-list 的全部宽度 */
+  margin-bottom: 20px; /* 每个工具组底部间距 */
+}

@@ -18,7 +18,6 @@ export class ImageUploader {
 
         this.render(); // 渲染HTML结构
         this.initEventListeners(); // 初始化事件监听器
-        this.updateTextContent(); // 更新文本内容，支持国际化
     }
 
     /**
@@ -26,18 +25,18 @@ export class ImageUploader {
      */
     render() {
         this.container.innerHTML = `
-            <div class="upload-column">
+            <div>
                 <div class="upload-area" id="uploadArea${this.id}">
                     <div class="upload-icon">📁</div>
-                    <div class="upload-text" id="${this.id}ImageText"></div>
-                    <div class="upload-hint">支持 PNG、JPG、JPEG、WebP、BMP、GIF</div>
+                    <div class="upload-text" id="${this.id}ImageText" data-i18n="common.image.uploadText"></div>
+                    <div class="upload-hint" data-i18n="common.image.uploadHint"></div>
                     <input type="file" class= "fileInput" id="fileInput${this.id}" accept="image/*" />
                 </div>
 
                 <div class="preview-section" id="previewSection${this.id}" style="display: none;">
-                    <img id="previewImage${this.id}" class="preview-image" alt="预览" />
+                    <img id="previewImage${this.id}" class="preview-image" data-i18n-alt="common.image.previewAlt" alt="" />
                     <div class="image-info" id="imageInfo${this.id}"></div>
-                    <div class="remove-file" id="removeFile${this.id}"></div>
+                    <div class="remove-file" id="removeFile${this.id}" data-i18n="common.image.removeFile"></div>
                 </div>
             </div>
         `;
@@ -75,9 +74,7 @@ export class ImageUploader {
         });
 
         this.removeFileBtn.addEventListener('click', () => this.removeImage());
-
-        // 监听语言改变事件，更新文本
-        window.addEventListener('languageChanged', () => this.updateTextContent());
+        refreshTranslation()
     }
 
     /**
@@ -88,7 +85,7 @@ export class ImageUploader {
         if (!file) return;
         // 检查文件类型是否为图片
         if (!file.type.startsWith('image/')) {
-            if (typeof showError === 'function') showError('errors.invalidFile');
+            if (typeof showError === 'function') showError(translation('common.image.errors.invalidFile'));
             return;
         }
 
@@ -133,7 +130,6 @@ export class ImageUploader {
         if (this.onFileChangeCallback) {
             this.onFileChangeCallback(this.id, null, '');
         }
-        this.updateTextContent(); // 更新文本内容
     }
 
     /**
@@ -152,18 +148,4 @@ export class ImageUploader {
         return this.previewImage.src;
     }
 
-    /**
-     * 更新上传区域和移除按钮的文本，支持国际化
-     */
-    updateTextContent() {
-        if (this.imageText && typeof t === 'function') {
-            this.imageText.textContent = t('uploadText');
-        }
-        if (this.removeFileBtn && typeof t === 'function') {
-            this.removeFileBtn.textContent = t('removeFile');
-        }
-        if (this.uploadHint && typeof t === 'function') {
-            this.uploadHint.textContent = t('uploadHint');
-        }
-    }
 }

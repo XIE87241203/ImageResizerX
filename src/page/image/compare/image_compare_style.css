@@ -1,4 +1,3 @@
-@import '../common/color_variables.css';
 
 .compare-container {
   display: flex;
@@ -6,13 +5,9 @@
   margin-bottom: 20px;
 }
 
-#leftImageUploaderContainer,
-#rightImageUploaderContainer {
+/* 图片上传模块容器 */
+.image-uploader-container {
   flex: 1;
-}
-
-.upload-column {
-
 }
 
 .image-compare-view {
@@ -21,7 +16,6 @@
   max-width: 800px;
   margin: 0 auto;
   overflow: hidden;
-  border-radius: 8px;
   box-shadow: 0 4px 12px var(--shadow-light);
   display: none;
   background-image: linear-gradient(45deg, var(--compare-background-pattern-color) 25%, transparent 25%, transparent 75%, var(--compare-background-pattern-color) 75%, var(--compare-background-pattern-color)),
@@ -50,6 +44,7 @@
   pointer-events: none;
 }
 
+/* 对比工具控制区域 */
 .compare-controls {
   margin: 20px 0;
   padding: 15px;
@@ -61,49 +56,44 @@
   flex-wrap: wrap;
 }
 
+/* 控制组 */
 .control-group {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex: 1; /* 让控制组占满父布局的宽度 */
 }
 
-input[type='range'] {
+/* 透明度滑块 */
+.opacitySlider {
   width: 200px;
 }
 
-.image-side-by-side-view {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
+/* 快速对比按钮 */
+.toggle-opacity-button {
+  margin-left: auto;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.image-side-by-side-view > div {
-  flex: 1;
+.toggle-opacity-button:hover {
+  background-color: var(--primary-color-dark);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.image-side-by-side-view img {
-  width: 100%;
-  border-radius: 8px;
-}
-
-.side-by-side-label {
-    text-align: center;
-    margin-top: 5px;
-    color: var(--text-color-medium);
-}
-
+/* 图片对比页面容器 */
 .container.image-compare-page {
   max-width: 900px;
 }
 
+/* 对比控制区域默认隐藏 */
 .compare-controls {
-  display: none;
-}
-
-.compare-mode-select {
-  background: white;
-}
-
-.image-side-by-side-view {
   display: none;
 }

@@ -26,8 +26,6 @@ This project provides the following web-based tools:
 
 2.  **Image Comparison Tool** (`src/image_compare/compare.html`):
     -   Upload two images via click or drag & drop for comparison.
-    -   Supports two comparison modes: Overlay Comparison and Side-by-Side Comparison.
-    -   In Overlay mode, adjust the transparency of the overlay image using a slider to easily spot differences.
 
 #### Web Version Usage
 

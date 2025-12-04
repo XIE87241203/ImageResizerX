@@ -1,14 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 加载通用头部
-    if (typeof loadCommonHeader === 'function') {
-        loadCommonHeader('commonHeaderPlaceholder');
-    }
-
-    // 初始化国际化文本
-    if (typeof initLanguage === 'function') {
-        initLanguage();
-    }
-
     const text1Input = document.getElementById('text1');
     const text2Input = document.getElementById('text2');
     const diffOutputLeft = document.getElementById('diffOutputLeft'); // 获取左侧输出区域
@@ -105,32 +95,11 @@ document.addEventListener('DOMContentLoaded', () => {
     compareTexts();
 });
 
-// 监听语言切换事件，重新加载页面文本
-window.addEventListener('languageChanged', () => {
-    // 刷新页面上的所有需要翻译的文本
-    if (typeof initLanguage === 'function') {
-        initLanguage();
-    }
+// 页面初始化函数
+function initResizePage() {
+    // 首先加载通用头部
+    loadCommonHeader('commonHeaderPlaceholder');
+}
 
-    // 统一检查 t 函数是否存在，避免重复检查
-    if (typeof t === 'function') {
-        // 更新标题和副标题等
-        const textCompareTitle = document.getElementById('textCompareTitle');
-        const textCompareSubtitle = document.getElementById('textCompareSubtitle');
-        const text1Label = document.getElementById('text1Label');
-        const text2Label = document.getElementById('text2Label');
-        const resultTitle = document.getElementById('resultTitle');
+initResizePage()
 
-        if (textCompareTitle) textCompareTitle.textContent = t('textCompareTool.title');
-        if (textCompareSubtitle) textCompareSubtitle.textContent = t('textCompareTool.subtitle');
-        if (text1Label) text1Label.textContent = t('textCompareTool.text1Label');
-        if (text2Label) text2Label.textContent = t('textCompareTool.text2Label');
-        if (resultTitle) resultTitle.textContent = t('textCompareTool.resultTitle');
-
-        // 更新输入框的placeholder
-        const text1Input = document.getElementById('text1'); // 重新获取输入框元素
-        const text2Input = document.getElementById('text2'); // 重新获取输入框元素
-        if (text1Input) text1Input.placeholder = t('textCompareTool.text1Placeholder');
-        if (text2Input) text2Input.placeholder = t('textCompareTool.text2Placeholder');
-    }
-});

@@ -1,6 +1,7 @@
 /* 颜色变量 */
 :root {
   --primary-color: #667eea; /* 主色调 */
+  --primary-color-dark: #5263cb; /* 主色调的深色版本 */
   --secondary-color: #764ba2; /* 次要色调 */
   --background-gradient-start: #667eea; /* 背景渐变开始颜色 */
   --background-gradient-end: #764ba2; /* 背景渐变结束颜色 */
