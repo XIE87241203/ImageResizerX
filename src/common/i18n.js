@@ -5,6 +5,7 @@ const i18n = {
     indexSubtitle: '多种实用小工具，助您轻松解决日常问题',
     resizeToolLink: '图片倍率缩放工具',
     compareToolLink: '图片对比工具',
+    textCompareToolLink: '文本对比工具',
     indexPageTitle: '常用小工具合集',
     backToHome: '← 返回首页', // 添加返回首页的国际化键
 
@@ -21,7 +22,7 @@ const i18n = {
     outputScalesPlaceholder: '例如: 1.5,2,3 或 1.25，2，3',
     outputScalesHint: '支持多个倍率，用英文或中文逗号分隔',
     processBtn: '开始处理',
-    processing: '处理中...',
+    processing: '处理中...', 
     processingScale: '正在处理 {scale}x ({current}/{total})...',
     resultTitle: '处理结果',
     download: '下载',
@@ -47,12 +48,23 @@ const i18n = {
     modeSideBySide: '左右并排',
     modeOverlay: '叠加对比',
     modeSlider: '滑动对比',
+    textCompareTool: {
+      title: '📝 文本对比工具',
+      subtitle: '轻松对比两段文字的差异',
+      text1Label: '文本一:',
+      text2Label: '文本二:',
+      compareButton: '对比',
+      resultTitle: '对比结果:',
+      text1Placeholder: '在此输入第一段文字...',
+      text2Placeholder: '在此输入第二段文字...',
+    },
   },
   en: {
     indexTitle: '🛠️ Common Utility Tools',
     indexSubtitle: 'A collection of practical tools to easily solve your daily problems',
     resizeToolLink: 'Image Scale Resize Tool',
     compareToolLink: 'Image Compare Tool',
+    textCompareToolLink: 'Text Compare Tool',
     indexPageTitle: 'Common Utility Tools',
     backToHome: '← Back to Home', // Add i18n key for back to home
 
@@ -69,7 +81,7 @@ const i18n = {
     outputScalesPlaceholder: 'e.g.: 1.5,2,3 or 1.25,2,3',
     outputScalesHint: 'Multiple scales supported, separated by comma (English or Chinese)',
     processBtn: 'Start Processing',
-    processing: 'Processing...',
+    processing: 'Processing...', 
     processingScale: 'Processing {scale}x ({current}/{total})...',
     resultTitle: 'Results',
     download: 'Download',
@@ -95,6 +107,16 @@ const i18n = {
     modeSideBySide: 'Side by Side',
     modeOverlay: 'Overlay',
     modeSlider: 'Slider',
+    textCompareTool: {
+      title: '📝 Text Compare Tool',
+      subtitle: 'Easily compare differences between two texts',
+      text1Label: 'Text One:',
+      text2Label: 'Text Two:',
+      compareButton: 'Compare',
+      resultTitle: 'Comparison Result:',
+      text1Placeholder: 'Enter the first text here...',
+      text2Placeholder: 'Enter the second text here...',
+    },
   },
 };
 

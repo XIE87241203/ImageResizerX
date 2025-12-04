@@ -1,14 +1,13 @@
+// image_resize.js
+import { ImageUploader } from '../common/imageUploadModule.js';
+
 // 全局变量
 let currentFile = null;
 let processedImages = [];
+let currentFileDimensions = { width: 0, height: 0 }; // 存储当前图片的尺寸信息，避免重复加载图片获取宽高
+let imageUploader; // ImageUploader 实例
 
 // DOM 元素
-const uploadArea = document.getElementById('uploadArea');
-const fileInput = document.getElementById('fileInput');
-const previewSection = document.getElementById('previewSection');
-const previewImage = document.getElementById('previewImage');
-const imageInfo = document.getElementById('imageInfo');
-const removeFile = document.getElementById('removeFile');
 const originalScaleInput = document.getElementById('originalScale');
 const outputScalesInput = document.getElementById('outputScales');
 const processBtn = document.getElementById('processBtn');
@@ -20,22 +19,42 @@ const resultSection = document.getElementById('resultSection');
 const resultList = document.getElementById('resultList');
 const downloadAllBtn = document.getElementById('downloadAllBtn');
 
-// 语言切换按钮 - Removed, handled by common.js
-
 // 格式化倍率字符串（去除多余的0）
 function formatScale(scale) {
   const s = scale.toFixed(3).replace(/\.?0+$/, '');
   return s || '1';
 }
 
+// 处理文件选择或移除的回调函数
+function handleFileChangeCallback(id, file, dataUrl) {
+  currentFile = file; // 更新全局 currentFile
+
+  if (file) {
+    // 如果选择了文件，加载图片以获取尺寸
+    const img = new Image();
+    img.onload = () => {
+      currentFileDimensions.width = img.width;
+      currentFileDimensions.height = img.height;
+    };
+    img.src = dataUrl;
+    processBtn.disabled = false;
+    hideError();
+  } else {
+    // 如果移除了文件，清空尺寸信息并禁用处理按钮
+    currentFileDimensions = { width: 0, height: 0 };
+    processBtn.disabled = true;
+    resultSection.classList.remove('show'); // 移除文件时隐藏结果区域
+    processedImages = []; // 清空之前的处理结果
+  }
+  updateUI(); // 触发 UI 更新以反映文件变化
+}
+
+
 // 更新 UI 文本
 function updateUI() {
   if (document.getElementById('title')) document.getElementById('title').textContent = `🖼️ ${t('title')}`;
   if (document.getElementById('subtitle')) document.getElementById('subtitle').textContent = t('subtitle');
-  if (document.getElementById('uploadText')) document.getElementById('uploadText').textContent = t('uploadText');
-  if (document.getElementById('uploadHint')) document.getElementById('uploadHint').textContent = t('uploadHint');
-  if (document.getElementById('previewImage')) document.getElementById('previewImage').alt = t('previewAlt');
-  if (document.getElementById('removeFile')) document.getElementById('removeFile').textContent = t('removeFile');
+  // uploadText, uploadHint, previewImage.alt, removeFile 的文本更新由 ImageUploader 内部处理
   if (document.getElementById('originalScaleLabel')) document.getElementById('originalScaleLabel').textContent = t('originalScale');
   if (document.getElementById('originalScale')) document.getElementById('originalScale').placeholder = t('originalScalePlaceholder');
   if (document.getElementById('originalScaleHint')) document.getElementById('originalScaleHint').textContent = t('originalScaleHint');
@@ -46,119 +65,14 @@ function updateUI() {
   if (document.getElementById('resultTitle')) document.getElementById('resultTitle').textContent = t('resultTitle');
   if (document.getElementById('downloadAllBtn')) document.getElementById('downloadAllBtn').textContent = t('downloadAll');
 
-  // 更新语言按钮状态 - Removed, handled by common.js
-
   // 更新文档标题
   document.title = `${t('title')} - Web Version`;
-
-  // 如果已选择文件，更新图片信息
-  if (currentFile) {
-    const img = new Image();
-    img.onload = () => {
-      imageInfo.textContent = t('imageInfo', {
-        fileName: t('fileName'),
-        name: currentFile.name,
-        size: t('size'),
-        width: img.width,
-        height: img.height,
-        fileSize: t('fileSize'),
-        sizeValue: formatFileSize(currentFile.size),
-      });
-    };
-    img.src = URL.createObjectURL(currentFile);
-  }
 
   // 如果已有结果，更新结果列表
   if (processedImages.length > 0) {
     displayResults();
   }
 }
-
-// 显示错误 (使用 common.js 中的 showError)
-// 隐藏错误 (使用 common.js 中的 hideError)
-
-// 处理文件选择
-function handleFileSelect(file) {
-  if (!file) return;
-
-  if (!file.type.startsWith('image/')) {
-    showError('errors.invalidFile');
-    return;
-  }
-
-  currentFile = file;
-  const reader = new FileReader();
-
-  reader.onload = e => {
-    previewImage.src = e.target.result;
-    previewSection.classList.add('show');
-
-    // 获取图片尺寸
-    const img = new Image();
-    img.onload = () => {
-      imageInfo.textContent = t('imageInfo', {
-        fileName: t('fileName'),
-        name: file.name,
-        size: t('size'),
-        width: img.width,
-        height: img.height,
-        fileSize: t('fileSize'),
-        sizeValue: formatFileSize(file.size),
-      });
-    };
-    img.src = e.target.result;
-  };
-
-  reader.readAsDataURL(file);
-  processBtn.disabled = false;
-  hideError();
-}
-
-// 上传区域点击
-if (uploadArea) {
-  uploadArea.addEventListener('click', () => {
-    if (fileInput) fileInput.click();
-  });
-}
-
-// 文件输入变化
-if (fileInput) {
-  fileInput.addEventListener('change', e => {
-    handleFileSelect(e.target.files[0]);
-  });
-}
-
-// 拖拽处理
-if (uploadArea) {
-  uploadArea.addEventListener('dragover', e => {
-    e.preventDefault();
-    uploadArea.classList.add('dragover');
-  });
-
-  uploadArea.addEventListener('dragleave', () => {
-    uploadArea.classList.remove('dragover');
-  });
-
-  uploadArea.addEventListener('drop', e => {
-    e.preventDefault();
-    uploadArea.classList.remove('dragover');
-    handleFileSelect(e.dataTransfer.files[0]);
-  });
-}
-
-// 移除文件
-if (removeFile) {
-  removeFile.addEventListener('click', () => {
-    currentFile = null;
-    previewSection.classList.remove('show');
-    resultSection.classList.remove('show');
-    processBtn.disabled = true;
-    processedImages = [];
-    fileInput.value = '';
-  });
-}
-
-// 根据文件扩展名或 MIME 类型获取正确的 MIME 类型 (使用 common.js 中的 getMimeType)
 
 // 使用 Canvas 高质量缩放图片
 function resizeImage(image, originalScale, outputScale, mimeType = 'image/png') {
@@ -211,7 +125,8 @@ function resizeImage(image, originalScale, outputScale, mimeType = 'image/png') 
  */
 async function processImage() {
   // 1. 验证是否已选择文件
-  if (!currentFile) {
+  const fileToProcess = imageUploader.getFile();
+  if (!fileToProcess) {
     showError('errors.noFile');
     return;
   }
@@ -256,6 +171,12 @@ async function processImage() {
   // 显示进度条，禁用处理按钮，隐藏之前的结果
   progress.classList.add('show');
   progressFill.style.width = '0%';
+  // 修正进度文本中 current 的初始值，使其从 1 开始
+  progressText.textContent = t('processingScale', {
+    scale: formatScale(outputScales[0] || 1), // 假设第一个输出倍率，如果不存在则默认为1
+    current: 0,
+    total: outputScales.length,
+  });
   processBtn.disabled = true;
   resultSection.classList.remove('show');
   processedImages = []; // 清空之前的处理结果
@@ -265,7 +186,7 @@ async function processImage() {
   let objectURL = null;
 
   try {
-    objectURL = URL.createObjectURL(currentFile);
+    objectURL = URL.createObjectURL(fileToProcess);
     img.src = objectURL;
 
     // 等待图片加载完成
@@ -287,14 +208,14 @@ async function processImage() {
       });
 
       // 检测原始文件的 MIME 类型
-      const originalMimeType = getMimeType(currentFile.name, currentFile.type);
+      const originalMimeType = getMimeType(fileToProcess.name, fileToProcess.type);
 
       // 执行图片缩放操作
       const result = await resizeImage(img, originalScale, outputScale, originalMimeType);
 
       // 7. 生成符合命名规则的文件名
       // 格式：原名-倍率x.扩展名（例如：image-2x.png）
-      const originalName = currentFile.name;
+      const originalName = fileToProcess.name;
       const nameWithoutExt = originalName.substring(0, originalName.lastIndexOf('.')) || originalName;
       const ext = originalName.substring(originalName.lastIndexOf('.')) || '.png';
       const scaleStr = formatScale(outputScale);
@@ -371,11 +292,12 @@ function downloadImage(item) {
 async function downloadAll() {
   if (processedImages.length === 0) return;
 
-  // 使用 JSZip 库（内联）
+  // 检查是否加载了 JSZip 库
   if (typeof JSZip === 'undefined') {
     // 如果没有 JSZip，逐个下载
     for (const item of processedImages) {
       downloadImage(item);
+      // 增加一个小的延迟，避免浏览器下载管理器阻塞
       await new Promise(resolve => setTimeout(resolve, 100));
     }
     return;
@@ -410,10 +332,6 @@ async function downloadAll() {
 if (processBtn) processBtn.addEventListener('click', processImage);
 if (downloadAllBtn) downloadAllBtn.addEventListener('click', downloadAll);
 
-// 绑定通用事件
-// bindLanguageSwitchers(); // 已经被 loadCommonHeader 内部调用
-// window.addEventListener('languageChanged', updateUI); // 这一行应该保留
-
 // 回车键处理
 if (originalScaleInput) {
   originalScaleInput.addEventListener('keypress', e => {
@@ -429,16 +347,16 @@ if (outputScalesInput) {
 // 页面初始化函数
 async function initResizePage() {
     // 首先加载通用头部
-    // 对于子目录页面，headerPath 应该是 '../common_header.html'
-    await loadCommonHeader('commonHeaderPlaceholder','../common/common_header.html');
+    await loadCommonHeader('commonHeaderPlaceholder');
 
     // 初始化语言设置
     initLanguage();
+
+    // 初始化 ImageUploader
+    imageUploader = new ImageUploader('imageUploadContainer', 'main', handleFileChangeCallback);
+
     // 更新 UI 文本，依赖于语言设置和头部元素
     updateUI();
-
-    // 绑定通用事件（语言切换已在 loadCommonHeader 内部绑定）
-    // window.addEventListener('languageChanged', updateUI); // 这一行应该保留
 }
 
 // 绑定语言改变事件，确保在头部加载后绑定
@@ -446,4 +364,3 @@ window.addEventListener('languageChanged', updateUI);
 
 // 页面加载完成后调用初始化函数
 document.addEventListener('DOMContentLoaded', initResizePage);
-

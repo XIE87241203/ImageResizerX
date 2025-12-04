@@ -14,6 +14,7 @@ body {
   padding-top: 70px; /* 添加内边距以防止内容被固定头部遮挡 */
 }
 
+
 /* 通用头部样式 */
 .common-header {
   position: fixed; /* 使头部固定在顶部 */
@@ -123,9 +124,7 @@ h1 {
 }
 
 /* 隐藏文件输入框 */
-#fileInput,
-#fileInputLeft,
-#fileInputRight {
+.fileInput {
   display: none;
 }
 
@@ -140,10 +139,11 @@ h1 {
 
 .preview-image {
   max-width: 100%;
-  max-height: 300px;
+  max-height: 400px; /* 设置最大高度，防止图片过大 */
+  display: block; /* 使图片变为块级元素，以便使用 margin: auto */
+  margin: 0 auto 15px auto; /* 水平居中图片，并保持底部外边距 */
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 15px;
 }
 
 .image-info {

@@ -1,0 +1,80 @@
+/* text_compare/text_compare_style.css */
+
+/* 文本对比工具主容器样式 */
+.text-compare-container {
+    max-width: 800px;
+    padding-top: 20px;
+    margin: 20px auto 0 auto; /* 上外边距 20px，左右居中，下外边距 0 */
+}
+
+/* 输入区域分组样式 */
+.input-group {
+    display: flex;
+    gap: 20px; /* 输入框之间的间距 */
+    margin-bottom: 20px; /* 在输入区域和结果区域之间添加间距 */
+}
+
+/* 单个输入面板样式 */
+.input-pane {
+    flex: 1; /* 每个面板占据可用空间的一半 */
+}
+
+/* 文本输入框样式 */
+.text-input {
+    width: 100%;
+    padding: 10px;
+    border: 2px dashed var(--primary-color); /* 添加虚线边框，使用主题色 */
+    border-radius: 8px; /* 添加圆角 */
+    font-size: 16px;
+    box-sizing: border-box; /* 确保内边距和边框包含在元素的总宽度和高度内 */
+    resize: none; /* 不允许调整大小 */
+    background-color: var(--upload-area-bg); /* 使用上传区域背景色作为文本输入框背景 */
+    height: 180px; /* 固定高度 */
+}
+
+.text-input:focus {
+    outline: none;
+    border-color: var(--secondary-color); /* 聚焦时边框颜色 */
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.2);
+}
+
+/* 对比结果容器样式 */
+.diff-container {
+    display: flex;
+    gap: 20px; /* 左右两边之间的间距 */
+    margin-top: 20px;
+}
+
+.diff-pane {
+    flex: 1; /* 每个面板占据可用空间的一半 */
+    background-color: var(--upload-area-bg); /* 与输入框背景色一致 */
+    border: 2px solid var(--primary-color); /* 与输入框边框粗细和颜色一致，但为实线 */
+    border-radius: 8px; /* 添加圆角 */
+    padding: 10px; /* 与输入框内边距一致 */
+    height: 180px; /* 固定高度 */
+    overflow-y: auto; /* 垂直方向超出显示滚动条 */
+    white-space: pre-wrap; /* 保留空白符，并自动换行 */
+    font-family: 'Consolas', 'Monaco', monospace; /* 等宽字体 */
+    font-size: 16px;
+    line-height: 1.6;
+    word-break: break-all; /* 单词内部允许换行 */
+    overflow-x: auto; /* 当内容溢出时显示滚动条 */
+    box-sizing: border-box; /* 确保内边距和边框包含在元素的总宽度和高度内 */
+}
+
+/* 差异高亮样式 */
+.diff-added {
+    background-color: var(--diff-added-bg-color, #e6ffed); /* 绿色背景表示新增 */
+    color: var(--diff-added-color, #22863a); /* 绿色字体 */
+}
+
+.diff-removed {
+    background-color: var(--diff-removed-bg-color, #ffeef0); /* 红色背景表示删除 */
+    color: var(--diff-removed-color, #b31d28); /* 红色字体 */
+}
+
+/* 相同位置不一致的字符高亮样式（红色） */
+.diff-mismatch {
+    background-color: var(--diff-removed-bg-color, #ffeef0); /* 使用删除的背景色 */
+    color: var(--diff-removed-color, #b31d28); /* 使用删除的字体色 */
+}

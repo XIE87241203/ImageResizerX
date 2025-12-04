@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>图片倍率缩放工具 - 网页版</title>
     <link rel="stylesheet" href="../common/style.css">
-    <link rel="stylesheet" href="resize_style.css">
+    <link rel="stylesheet" href="image_resize_style.css">
 </head>
 
 <body>
@@ -17,18 +17,8 @@
     <h1 id="title">🖼️ 图片倍率缩放工具</h1>
     <p class="subtitle" id="subtitle">支持多倍率批量处理，高质量缩放算法</p>
 
-    <div class="upload-area" id="uploadArea">
-      <div class="upload-icon">📁</div>
-      <div class="upload-text" id="uploadText">点击或拖拽图片到此处</div>
-      <div class="upload-hint" id="uploadHint">支持 PNG、JPG、JPEG、WebP、BMP、GIF</div>
-      <input type="file" id="fileInput" accept="image/*" />
-    </div>
-
-    <div class="preview-section" id="previewSection">
-      <img id="previewImage" class="preview-image" alt="预览" />
-      <div class="image-info" id="imageInfo"></div>
-      <div class="remove-file" id="removeFile">移除图片</div>
-    </div>
+    <!-- 图片上传模块容器 -->
+    <div id="imageUploadContainer"></div>
 
     <div class="form-group">
       <label for="originalScale" id="originalScaleLabel">原始倍率</label>
@@ -64,10 +54,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <!-- 多语言支持 -->
   <script src="../common/i18n.js"></script>
-  <!-- 通用工具函数 -->
+  <!-- 通用 JavaScript 工具函数 -->
   <script src="../common/common.js"></script>
-  <!-- 复用 app.js 中的工具函数 -->
-  <script src="resize.js"></script>
+  <!-- 图片上传模块 -->
+  <script type="module" src="../common/imageUploadModule.js"></script>
+  <!-- 页面逻辑 -->
+  <script type="module" src="image_resize.js"></script>
 </body>
 
 </html>

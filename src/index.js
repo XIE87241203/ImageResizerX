@@ -17,7 +17,7 @@ window.addEventListener('languageChanged', updateUI);
 // 页面初始化函数
 async function initComparePage() {
     // 首先加载通用头部
-    await loadCommonHeader('commonHeaderPlaceholder', './common/common_header.html');
+    await loadCommonHeader('commonHeaderPlaceholder');
 
     // 初始化语言设置
     initLanguage();

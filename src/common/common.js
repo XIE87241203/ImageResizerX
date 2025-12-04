@@ -139,52 +139,60 @@ window.addEventListener('languageChanged', () => {
 });
 
 /**
- * 异步加载并插入通用头部
- * @param {string} placeholderId 头部要插入的DOM元素的ID
- * @param {string} headerPath 通用头部HTML文件的路径
- * @returns {Promise<void>} Promise对象，在头部加载并处理完成后解决
+ * 生成通用头部HTML字符串
+ * @returns {string} 通用头部HTML字符串
  */
-async function loadCommonHeader(placeholderId, headerPath = '../common/common_header.html') {
+function generateCommonHeaderHtml() {
+    return `
+<header class="common-header">
+    <a href="../index.html" class="nav-link back-to-home-btn" id="backToHomeLink"><span>返回</span></a>
+    <div class="header-center">
+        <div class="language-switcher">
+            <button class="lang-btn" id="langZh" data-lang="zh">中文</button>
+            <button class="lang-btn" id="langEn" data-lang="en">English</button>
+        </div>
+    </div>
+</header>
+    `;
+}
+
+/**
+ * 插入通用头部
+ * @param {string} placeholderId 头部要插入的DOM元素的ID
+ * @returns {void}
+ */
+function loadCommonHeader(placeholderId) {
     const placeholder = document.getElementById(placeholderId);
     if (!placeholder) {
         console.error(`Placeholder element with ID "${placeholderId}" not found.`);
         return;
     }
 
-    try {
-        const response = await fetch(headerPath);
-        if (!response.ok) {
-            throw new Error(`Failed to load common header: ${response.statusText}`);
+    const headerHtml = generateCommonHeaderHtml(); // 使用JS生成HTML
+    placeholder.innerHTML = headerHtml;
+
+    // 获取当前页面的文件名
+    const currentPage = window.location.pathname.split('/').pop();
+    const backToHomeLink = document.getElementById('backToHomeLink');
+
+    if (backToHomeLink) {
+        if (currentPage === 'index.html' || currentPage === '') {
+            // 如果是首页，隐藏返回首页按钮
+            backToHomeLink.style.display = 'none';
+            // 并且确保 href 指向当前目录的 index.html
+            backToHomeLink.href = 'index.html';
+        } else {
+            // 对于其他页面，显示返回首页按钮，并确保 href 指向父目录的 index.html
+            backToHomeLink.style.display = 'flex'; // 或者 'block', 'inline-flex' 等，取决于你的 CSS 样式
+            // 如果当前页面在子目录，如 image_resize/resize.html，那么 ../index.html 是正确的路径
+            backToHomeLink.href = '../index.html';
         }
-        const headerHtml = await response.text();
-        placeholder.innerHTML = headerHtml;
-
-        // 获取当前页面的文件名
-        const currentPage = window.location.pathname.split('/').pop();
-        const backToHomeLink = document.getElementById('backToHomeLink');
-
-        if (backToHomeLink) {
-            if (currentPage === 'index.html' || currentPage === '') {
-                // 如果是首页，隐藏返回首页按钮
-                backToHomeLink.style.display = 'none';
-                // 并且确保 href 指向当前目录的 index.html
-                backToHomeLink.href = 'index.html';
-            } else {
-                // 对于其他页面，显示返回首页按钮，并确保 href 指向父目录的 index.html
-                backToHomeLink.style.display = 'flex'; // 或者 'block', 'inline-flex' 等，取决于你的 CSS 样式
-                // 如果当前页面在子目录，如 image_resize/resize.html，那么 ../index.html 是正确的路径
-                backToHomeLink.href = '../index.html'; 
-            }
-            updateBackToHomeLinkText(); // 在设置完显示状态后更新文本
-        }
-
-        // 绑定语言切换按钮事件（确保在头部加载后绑定）
-        bindLanguageSwitchers();
-
-        // 初始加载时更新返回首页链接文本
-        updateBackToHomeLinkText();
-
-    } catch (error) {
-        console.error('Error loading common header:', error);
+        updateBackToHomeLinkText(); // 在设置完显示状态后更新文本
     }
+
+    // 绑定语言切换按钮事件（确保在头部加载后绑定）
+    bindLanguageSwitchers();
+
+    // 初始加载时更新返回首页链接文本
+    updateBackToHomeLinkText();
 }

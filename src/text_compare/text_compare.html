@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文本对比工具 - 常用小工具合集</title>
+    <link rel="stylesheet" href="../common/style.css" />
+    <link rel="stylesheet" href="text_compare_style.css" />
+</head>
+
+<body>
+    <!-- 通用头部占位符 -->
+    <div id="commonHeaderPlaceholder"></div>
+
+    <div class="container text-compare-container">
+        <h1 id="textCompareTitle">📝 文本对比工具</h1>
+        <p class="subtitle" id="textCompareSubtitle">轻松对比两段文字的差异</p>
+
+        <div class="input-section">
+            <div class="input-group">
+                <div class="input-pane">
+                    <label for="text1" class="input-label" id="text1Label">文本一:</label>
+                    <textarea id="text1" class="text-input" placeholder="在此输入第一段文字..."></textarea>
+                </div>
+                <div class="input-pane">
+                    <label for="text2" class="input-label" id="text2Label">文本二:</label>
+                    <textarea id="text2" class="text-input" placeholder="在此输入第二段文字..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="result-section">
+            <h2 id="resultTitle">对比结果:</h2>
+            <div class="diff-container">
+                <div id="diffOutputLeft" class="diff-pane"></div>
+                <div id="diffOutputRight" class="diff-pane"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 多语言支持 -->
+    <script src="../common/i18n.js"></script>
+    <!-- 通用工具函数 (包含加载头部逻辑) -->
+    <script src="../common/common.js"></script>
+    <!-- 页面逻辑 -->
+    <script src="text_compare.js"></script>
+</body>
+
+</html>

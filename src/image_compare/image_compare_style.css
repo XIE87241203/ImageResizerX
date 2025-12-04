@@ -1,4 +1,4 @@
-@import '../common/color_variables.css'; /* 引入颜色变量文件 */
+@import '../common/color_variables.css';
 
 .compare-container {
   display: flex;
@@ -6,11 +6,16 @@
   margin-bottom: 20px;
 }
 
-.upload-column {
+#leftImageUploaderContainer,
+#rightImageUploaderContainer {
   flex: 1;
 }
 
-.compare-view {
+.upload-column {
+
+}
+
+.image-compare-view {
   position: relative;
   width: 100%;
   max-width: 800px;
@@ -25,7 +30,7 @@
   background-position: 0 0, 10px 10px;
 }
 
-.compare-view.show {
+.image-compare-view.show {
   display: block;
 }
 
@@ -45,7 +50,7 @@
   pointer-events: none;
 }
 
-.controls {
+.compare-controls {
   margin: 20px 0;
   padding: 15px;
   background: var(--upload-area-bg);
@@ -66,23 +71,39 @@ input[type='range'] {
   width: 200px;
 }
 
-#sideBySideView {
+.image-side-by-side-view {
   display: flex;
   gap: 10px;
   margin-top: 20px;
 }
 
-#sideBySideView > div {
+.image-side-by-side-view > div {
   flex: 1;
 }
 
-#sideBySideView img {
+.image-side-by-side-view img {
   width: 100%;
   border-radius: 8px;
 }
 
-#sideBySideView div {
-  text-align: center;
-  margin-top: 5px;
-  color: var(--text-color-medium);
+.side-by-side-label {
+    text-align: center;
+    margin-top: 5px;
+    color: var(--text-color-medium);
+}
+
+.container.image-compare-page {
+  max-width: 900px;
+}
+
+.compare-controls {
+  display: none;
+}
+
+.compare-mode-select {
+  background: white;
+}
+
+.image-side-by-side-view {
+  display: none;
 }
