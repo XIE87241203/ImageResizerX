@@ -66,39 +66,59 @@ function getMimeType(fileName, mimeType) {
 }
 
 /**
- * 显示错误信息
- * @param {string} message 错误信息
- * @param {object} params 翻译参数
+ * 显示一个 toast 提示。
+ * @param {string} message 提示信息。
+ * @param {string} type 提示类型，可以是 'success' 或 'error'。
+ * @param {number} duration 提示显示时长（毫秒），默认为 3000ms。
  */
-function showError(message) {
-    const errorMsg = document.getElementById('errorMsg');
-    if (!errorMsg) {
-        console.error('Error element #errorMsg not found:', message);
-        alert(message);
-        return;
-    }
-    errorMsg.textContent = message;
-    errorMsg.classList.add('show');
+function showToast(message, type = 'success', duration = 3000) {
+  let toastContainer = document.getElementById('toastContainer');
+  if (!toastContainer) {
+    toastContainer = document.createElement('div');
+    toastContainer.id = 'toastContainer';
+    toastContainer.classList.add('toast-container');
+    document.body.appendChild(toastContainer);
+  }
 
-    // 清除之前的定时器（如果有）
-    if (errorMsg.hideTimer) {
-        clearTimeout(errorMsg.hideTimer);
-    }
+  const toast = document.createElement('div');
+  toast.classList.add('toast-message', `toast-${type}`);
+  toast.innerHTML = `<span>${message}</span>`; // 使用 span 包裹消息内容
+  toastContainer.appendChild(toast);
 
-    errorMsg.hideTimer = setTimeout(() => {
-        errorMsg.classList.remove('show');
-        errorMsg.hideTimer = null;
-    }, 5000);
+  // 强制回流以确保动画生效
+  void toast.offsetWidth; 
+  toast.classList.add('show');
+
+  // 点击 toast 消息时使其消失
+  toast.addEventListener('click', () => {
+    toast.classList.remove('show');
+    toast.addEventListener('transitionend', () => {
+      toast.remove();
+      // 如果容器内没有其他 toast，则移除容器
+      if (toastContainer.children.length === 0) {
+        toastContainer.remove();
+      }
+    }, { once: true });
+  });
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+    toast.addEventListener('transitionend', () => {
+      toast.remove();
+      // 如果容器内没有其他 toast，则移除容器
+      if (toastContainer.children.length === 0) {
+        toastContainer.remove();
+      }
+    }, { once: true });
+  }, duration);
 }
 
 /**
- * 隐藏错误信息
+ * 显示错误信息
+ * @param {string} message 错误信息
  */
-function hideError() {
-    const errorMsg = document.getElementById('errorMsg');
-    if (errorMsg) {
-        errorMsg.classList.remove('show');
-    }
+function showError(message) {
+    showToast(message, 'error');
 }
 
 /**
@@ -175,15 +195,16 @@ function loadCommonHeader(placeholderId) {
     const backToHomeLink = document.getElementById('backToHomeLink');
 
     if (backToHomeLink) {
+        // 默认显示返回首页按钮
+        backToHomeLink.style.display = 'flex'; 
+
         if (currentPage === 'index.html' || currentPage === '') {
             // 如果是首页，隐藏返回首页按钮
             backToHomeLink.style.display = 'none';
             // 并且确保 href 指向当前目录的 index.html
             backToHomeLink.href = 'index.html';
         } else {
-            // 对于其他页面，显示返回首页按钮，并确保 href 指向父目录的 index.html
-            backToHomeLink.style.display = 'flex'; // 或者 'block', 'inline-flex' 等，取决于你的 CSS 样式
-            // 如果当前页面在子目录，如 image_resize/resize.html，那么 ../../../index.html 是正确的路径
+            // 对于其他页面，确保 href 指向父目录的 index.html
             backToHomeLink.href = '../../../index.html';
         }
     }

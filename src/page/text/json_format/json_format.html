@@ -2,40 +2,54 @@
 <html lang="zh-CN">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title data-i18n="jsonFormat.title"></title>
-    <link rel="stylesheet" href="../../../common/color_variables.css"> <!-- 引入颜色变量文件，确保在其他样式表之前加载 -->
-  <link rel="stylesheet" href="../../../common/style.css">
-  <link rel="stylesheet" href="../../../common/color_variables.css">
-  <link rel="stylesheet" href="json_format_style.css">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title data-i18n="jsonFormat.title"></title>
+    <link rel="stylesheet" href="../../../common/color_variables.css">
+    <!-- 引入颜色变量文件，确保在其他样式表之前加载 -->
+    <link rel="stylesheet" href="../../../common/style.css">
+    <link rel="stylesheet" href="json_format_style.css">
 </head>
 
 <body>
-  <!-- 通用头部占位符 -->
-  <div id="commonHeaderPlaceholder"></div>
+<!-- 通用头部占位符 -->
+<div id="commonHeaderPlaceholder"></div>
 
-  <div class="container">
+<div class="container">
     <h1 id="title" data-i18n="jsonFormat.title"></h1>
     <p class="subtitle" id="subtitle" data-i18n="jsonFormat.subtitle"></p>
 
-    <div class="form-group">
-      <label for="jsonInput" id="jsonInputLabel" data-i18n="jsonFormat.jsonInputLabel"></label>
-      <textarea id="jsonInput"></textarea>
+
+    <!-- JSON编辑器容器，用于左右布局 -->
+    <div class="json-editor-container">
+        <!-- JSON输入区 -->
+        <div class="form-group editor-pane">
+            <label for="jsonInput" class="json-display-label"
+                   data-i18n="jsonFormat.jsonInputLabel"></label>
+            <textarea id="jsonInput" class="text-input text-area"></textarea>
+        </div>
+
+        <!-- JSON输出区 -->
+        <div class="form-group editor-pane">
+            <label for="jsonOutput" class="json-display-label"
+                   data-i18n="jsonFormat.jsonOutputLabel"></label>
+            <pre id="jsonOutput" class="json-output-display"></pre>
+        </div>
     </div>
 
-    <button class="btn" id="formatBtn" data-i18n="jsonFormat.formatBtn"></button>
-
-    <div class="form-group">
-      <label for="jsonOutput" id="jsonOutputLabel" data-i18n="jsonFormat.jsonOutputLabel"></label>
-      <textarea id="jsonOutput" readonly></textarea>
+    <!-- 操作按钮区域 -->
+    <div class="action-buttons-container">
+        <button id="copyOutputButton" class="btn" data-i18n="jsonFormat.copyButton"></button>
+        <button id="clearOutputButton" class="btn" data-i18n="jsonFormat.clearButton"></button>
     </div>
-  </div>
+</div>
 
-  <!-- 多语言支持 -->
-  <script src="../../../common/i18n.js"></script>
-  <!-- 页面逻辑 -->
-  <script type="module" src="json_format.js"></script>
+<!-- 多语言支持 -->
+<script src="../../../common/i18n.js"></script>
+<!-- 通用工具函数 (包含加载头部逻辑) -->
+<script src="../../../common/common.js"></script>
+<!-- 页面逻辑 -->
+<script src="json_format.js"></script>
 </body>
 
 </html>

@@ -88,11 +88,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* 图片对比页面容器 */
-.container.image-compare-page {
-  max-width: 900px;
-}
-
 /* 对比控制区域默认隐藏 */
 .compare-controls {
   display: none;

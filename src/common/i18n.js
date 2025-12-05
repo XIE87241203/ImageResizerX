@@ -13,6 +13,8 @@ const i18n = {
       backToHome: '← 返回首页',
       langZh: '中文',
       langEn: 'English',
+      copiedToClipboard: '已复制到剪贴板！',
+      copyFailed: '复制失败', // 新增：复制失败提示
       image: {
         fileName: '文件名',
         size: '尺寸',
@@ -35,7 +37,7 @@ const i18n = {
       originalScaleHint: '输入图片的原始倍率（例如：1x、2x）',
       outputScales: '输出倍率（多个用逗号分隔）',
       outputScalesPlaceholder: '例如: 1.5,2,3 或 1.25，2，3',
-      outputScalesHint: '支持多个倍率，用英文或中文逗号分隔',
+      outputScalesHint: '支持多个倍率，用英文或中文逗号分隔（例如：1.5,2）', // 修改此处
       processBtn: '开始处理',
       processing: '处理中...', 
       processingScale: '正在处理 {scale}x ({current}/{total})...',
@@ -81,6 +83,8 @@ const i18n = {
       jsonOutputLabel: '输出结果',
       jsonOutputPlaceholder: '格式化后的JSON或错误信息将显示在此处',
       errorPrefix: 'JSON格式错误：',
+      copyButton: '复制',
+      clearButton: '清空',
     },
   },
   en: {
@@ -96,6 +100,8 @@ const i18n = {
       backToHome: '← Back to Home',
       langZh: '中文',
       langEn: 'English',
+      copiedToClipboard: 'Copied to clipboard!',
+      copyFailed: 'Copy failed', // 新增：复制失败提示
       image: {
         fileName: 'File Name',
         size: 'Size',
@@ -118,7 +124,7 @@ const i18n = {
       originalScaleHint: 'Enter the original scale of the image (e.g.: 1x, 2x)',
       outputScales: 'Output Scales (comma-separated)',
       outputScalesPlaceholder: 'e.g.: 1.5,2,3 or 1.25,2,3',
-      outputScalesHint: 'Multiple scales supported, separated by comma (English or Chinese)',
+      outputScalesHint: 'Multiple scales supported, separated by comma (English or Chinese) ,(e.g.: 1.5,2)', // 修改此处
       processBtn: 'Start Processing',
       processing: 'Processing...', 
       processingScale: 'Processing {scale}x ({current}/{total})...',
@@ -164,6 +170,8 @@ const i18n = {
       jsonOutputLabel: 'Output Result',
       jsonOutputPlaceholder: 'Formatted JSON or error message will be displayed here',
       errorPrefix: 'JSON Format Error:',
+      copyButton: 'Copy',
+      clearButton: 'Clear',
     },
   },
 };
@@ -215,7 +223,7 @@ function initLanguage() {
   const saved = localStorage.getItem('preferredLanguage');
   const browserLang = navigator.language || navigator.userLanguage;
 
-  let initialLang = 'zh'; // Default to Chinese
+  let initialLang = 'zh'; // 默认为中文
 
   if (saved && i18n[saved]) {
     initialLang = saved;
@@ -226,10 +234,12 @@ function initLanguage() {
     initialLang = 'en';
   }
 
-  // Set currentLang and update document element language
+  // 设置当前语言并更新文档元素的语言
   currentLang = initialLang;
   document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
 
-  // Dispatch languageChanged event after initialization to update UI elements
+  // 初始化后派发语言改变事件以更新UI元素
   window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: currentLang } }));
 }
+
+

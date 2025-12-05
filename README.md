@@ -2,30 +2,45 @@
 
 ## CollectionOfUsefulTools
 
-CollectionOfUsefulTools is a collection of useful web-based image tools, currently including a multi-scale image resizer and an image comparison tool.
+CollectionOfUsefulTools is a practical collection of web-based tools, currently including image tools and text tools.
 
-### Features
+### Key Features
 
-- Pure frontend implementation, no installation needed, just open in a browser.
-- All processing done locally in the browser (privacy-friendly).
-- Drag & drop support for image uploads.
+- Pure frontend implementation, no installation required, can be used directly in the browser.
+- All processing is done locally in the browser (privacy-friendly).
+- Supports drag-and-drop image upload.
 - Modern UI design.
-- Common formats supported: PNG/JPG/JPEG/WebP/BMP/GIF.
+- Supports common image formats: PNG/JPG/JPEG/WebP/BMP/GIF. (Image tools only)
 
-### Tools
+### Tool List
 
 This project provides the following web-based tools:
 
-1.  **Image Resizer Tool** (`src/image_resize/resize.html`):
-    -   Pick an image via click or drag & drop.
-    -   Enter the original scale and one or more target scales (comma-separated).
-    -   Resize with high-quality LANCZOS resampling.
-    -   Save resized images as "name-<scale>x.ext".
-    -   Multiple scales in one run: e.g., input `1.25,2,3` to generate 1.25x, 2x, 3x.
-    -   Batch download all resized images as a ZIP file.
+#### Image Tools
 
-2.  **Image Comparison Tool** (`src/image_compare/compare.html`):
-    -   Upload two images via click or drag & drop for comparison.
+1.  **Image Scale Resizing Tool** (`src/page/image/resize/image_resize.html`):
+    -   Click or drag to upload images.
+    -   Enter an original scale and one or more target scales (comma-separated).
+    -   Uses high-quality LANCZOS resampling for scaling.
+    -   Save scaled images with names like "original_name-<scale>x.extension".
+    -   Supports multi-scale batch processing: for example, entering `1.25,2,3` will generate 1.25x, 2x, and 3x images.
+    -   Supports downloading all scaled images as a ZIP file.
+
+2.  **Image Comparison Tool** (`src/page/image/compare/image_compare.html`):
+    -   Click or drag to upload two images for comparison.
+    -   Supports overlay comparison mode.
+    -   In overlay mode, adjust the transparency of the overlay image using a slider to easily spot differences.
+    -   Supports a quick compare button to toggle the display/hide of the overlay image.
+
+#### Text Tools
+
+3.  **Text Comparison Tool** (`src/page/text/compare/text_compare.html`):
+    -   Enter or paste two text snippets for comparison.
+    -   Highlights text differences.
+
+4.  **JSON Formatting Tool** (`src/page/text/json_format/json_format.html`):
+    -   Enter or paste JSON text.
+    -   Formats JSON text to make it more readable.
 
 #### Web Version Usage
 
@@ -33,11 +48,9 @@ The web version is located in the `src/` directory.
 
 **How to use:**
 
-1.  Simply open `src/index.html` in your browser.
-2.  Select the desired tool (Image Resizer or Image Comparison).
-3.  Follow the tool-specific instructions:
-    -   **Image Resizer**: Click or drag & drop to upload an image, enter original and target scales, then click "开始处理" (Start Processing) to download individually or as a ZIP.
-    -   **Image Comparison**: Upload two images to compare them using overlay or side-by-side modes.
+1.  Directly open `src/index.html` in your browser.
+2.  Select the desired tool.
+3.  Follow the tool-specific instructions.
 
 ### License
 
@@ -45,4 +58,4 @@ MIT
 
 ---
 
-For the Chinese version of this README, see `README_ZH.md`.
+Chinese version is available in `README_ZH.md`.

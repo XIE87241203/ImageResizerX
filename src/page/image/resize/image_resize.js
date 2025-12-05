@@ -11,7 +11,6 @@ let imageUploader; // ImageUploader 实例
 const originalScaleInput = document.getElementById('originalScale');
 const outputScalesInput = document.getElementById('outputScales');
 const processBtn = document.getElementById('processBtn');
-const errorMsg = document.getElementById('errorMsg');
 const progress = document.getElementById('progress');
 const progressFill = document.getElementById('progressFill');
 const progressText = document.getElementById('progressText');
@@ -38,7 +37,6 @@ function handleFileChangeCallback(id, file, dataUrl) {
     };
     img.src = dataUrl;
     processBtn.disabled = false;
-    hideError();
   } else {
     // 如果移除了文件，清空尺寸信息并禁用处理按钮
     currentFileDimensions = { width: 0, height: 0 };
@@ -244,7 +242,7 @@ function displayResults() {
                         <div class="result-name">${item.fileName}</div>
                         <div class="result-size">${item.width} × ${item.height} | ${formatFileSize(item.size)}</div>
                     </div>
-                    <button class="download-btn" data-index="${index}">${translation('imageResize.download')}</button>
+                    <button class="download-btn" data-index="${index}" data-i18n="imageResize.download"></button>
                 `;
     resultList.appendChild(resultItem);
   });
@@ -258,6 +256,7 @@ function displayResults() {
   });
 
   resultSection.classList.add('show');
+  refreshTranslation();
 }
 
 // 下载单个图片

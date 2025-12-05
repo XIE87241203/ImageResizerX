@@ -15,11 +15,13 @@
   --upload-area-bg: #f8f9ff; /* 上传区域背景 */
   --upload-area-hover-bg: #f0f2ff; /* 上传区域悬停背景 */
   --upload-area-dragover-bg: #e8ebff; /* 上传区域拖拽背景 */
-  --error-bg: #fee; /* 错误提示背景 */
   --error-color: #c33; /* 错误提示文字颜色 */
   --lang-btn-bg: #f0f0f0; /* 语言按钮背景 */
   --lang-btn-hover-bg: #e0e0e0; /* 语言按钮悬停背景 */
   --compare-background-pattern-color: #eee; /* 比较视图背景图案颜色 */
   --shadow-light: rgba(0, 0, 0, 0.1); /* 浅阴影 */
   --download-btn-hover-bg: #5568d3; /* 下载按钮悬停背景 */
+  /* JSON格式化工具颜色变量 */
+  --json-key-highlight-color: #92278f; /* JSON键高亮颜色 */
+  --json-value-highlight-color: #3ab54a; /* JSON值高亮颜色 */
 }

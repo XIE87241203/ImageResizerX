@@ -1,54 +1,130 @@
-/* jsonInput 文本输入框样式 */
-#jsonInput {
-  width: 100%;
-  height: 200px;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  font-family: 'Roboto Mono', 'Courier New', monospace; /* 使用等宽字体 */
-  font-size: 14px;
-  resize: vertical; /* 允许垂直方向调整大小 */
+/* json_format_style.css - JSON格式化页面样式 */
+
+/* 操作按钮容器样式，用于居中按钮 */
+.action-buttons-container {
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  gap: 10px; /* 按钮之间的间隔 */
+  margin-top: 15px; /* 与上方元素的间距 */
+  margin-bottom: 15px; /* 与下方元素的间距 */
 }
 
-/* jsonOutput 文本输出框样式 */
-#jsonOutput {
-  width: 100%;
-  height: 250px;
-  padding: 10px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  background-color: var(--secondary-background-color); /* 次级背景色 */
-  font-family: 'Roboto Mono', 'Courier New', monospace; /* 使用等宽字体 */
-  font-size: 14px;
-  white-space: pre-wrap; /* 保留空白符和换行 */
-  word-wrap: break-word; /* 允许长单词换行 */
-  resize: vertical; /* 允许垂直方向调整大小 */
+/* JSON编辑器容器样式，用于左右布局 */
+.json-editor-container {
+  display: flex; /* 使用 Flexbox 布局 */
+  gap: 20px; /* 设置列之间的间隔 */
+  margin-top: 20px; /* 与上方元素的间距 */
+  height: 500px; /* 设置一个固定高度，或者根据需要调整 */
 }
 
-/* formatBtn 格式化按钮样式 */
-#formatBtn {
-  padding: 10px 20px;
-  background-color: var(--primary-button-background-color);
-  color: var(--primary-button-text-color);
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-  margin-bottom: 20px; /* 按钮下方间距 */
+/* 编辑器面板（输入区和输出区）样式 */
+.editor-pane {
+  flex: 1; /* 均分可用空间 */
+  display: flex; /* 内部也使用 Flexbox */
+  flex-direction: column; /* 垂直方向排列 */
 }
 
-/* formatBtn 格式化按钮悬停样式 */
-#formatBtn:hover {
-  background-color: var(--primary-button-hover-background-color);
+/* 文本输入框和输出框的通用样式 */
+.text-area {
+  flex: 1; /* 填充可用高度 */
+  min-height: 150px; /* 最小高度 */
 }
 
-/* jsonInputLabel 和 jsonOutputLabel 标签样式 */
-#jsonInputLabel,
-#jsonOutputLabel {
-    display: block;
-    margin-bottom: 8px;
+.json-display-label {
     font-weight: bold;
-    color: var(--text-color);
+    color: var(--text-color-dark);
+}
+
+/* JSON输出显示区域的样式 */
+.json-output-display {
+    flex: 1; /* 填充可用高度 */
+    background-color: var(--secondary-background-color); /* 次级背景色 */
+    border: 1px solid var(--border-color-light); /* 边框 */
+    border-radius: 5px; /* 圆角 */
+    padding: 10px; /* 内边距 */
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; /* 等宽字体 */
+    font-size: 14px; /* 字体大小 */
+    line-height: 1.5; /* 行高 */
+    overflow: auto; /* 允许滚动 */
+    white-space: pre-wrap; /* 保留空白符和换行 */
+    word-wrap: break-word; /* 允许长单词换行 */
+}
+
+/* JSON键的样式 */
+.json-key {
+    color: var(--json-key-highlight-color); /* 使用高亮键颜色 */
+    font-weight: bold;
+}
+
+/* JSON字符串值的样式 */
+.json-string {
+    color: var(--json-value-highlight-color); /* 使用高亮值颜色 */
+}
+
+/* JSON数字值的样式 */
+.json-number {
+    color: var(--json-number-color);
+}
+
+/* JSON布尔值的样式 */
+.json-boolean {
+    color: var(--json-boolean-color);
+}
+
+/* JSON null值的样式 */
+.json-null {
+    color: var(--json-null-color);
+}
+
+/* JSON数组和对象的缩进 */
+.json-node {
+    margin-left: 20px;
+    position: relative;
+}
+
+/* JSON折叠/展开按钮的样式 */
+.json-toggle {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 5px;
+    user-select: none; /* 防止文本被选中 */
+    color: var(--json-toggle-color);
+}
+
+/* 展开状态的图标 */
+.json-toggle::before {
+    content: '▼'; /* 向下的三角形 */
+}
+
+/* 折叠状态的图标 */
+.json-node.collapsed > .json-toggle::before {
+    content: '►'; /* 向右的三角形 */
+}
+
+/* 折叠时隐藏值 */
+.json-node.collapsed > .json-value {
+    display: none;
+}
+
+/* 在折叠的对象或数组后面显示省略号 */
+.json-node.collapsed > .json-toggle::after {
+    content: ' ...';
+    color: var(--text-color-light);
+}
+
+/* 清除原有#jsonOutput的特定样式，因为现在它是pre标签 */
+#jsonOutput.text-input {
+    /* 确保这些样式不再应用于新的pre标签 */
+    background-color: initial;
+    white-space: initial;
+    word-wrap: initial;
+}
+
+/* JSON错误信息的样式 */
+.json-error {
+    color: var(--error-color);
+    font-weight: bold;
 }

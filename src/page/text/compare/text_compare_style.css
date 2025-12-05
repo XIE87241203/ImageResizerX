@@ -1,11 +1,4 @@
 
-/* 文本对比工具主容器样式 */
-.text-compare-container {
-    max-width: 800px;
-    padding-top: 20px;
-    margin: 20px auto 0 auto; /* 上外边距 20px，左右居中，下外边距 0 */
-}
-
 /* 输入区域分组样式 */
 .input-group {
     display: flex;
@@ -16,25 +9,6 @@
 /* 单个输入面板样式 */
 .input-pane {
     flex: 1; /* 每个面板占据可用空间的一半 */
-}
-
-/* 文本输入框样式 */
-.text-input {
-    width: 100%;
-    padding: 10px;
-    border: 2px dashed var(--primary-color); /* 添加虚线边框，使用主题色 */
-    border-radius: 8px; /* 添加圆角 */
-    font-size: 16px;
-    box-sizing: border-box; /* 确保内边距和边框包含在元素的总宽度和高度内 */
-    resize: none; /* 不允许调整大小 */
-    background-color: var(--upload-area-bg); /* 使用上传区域背景色作为文本输入框背景 */
-    height: 180px; /* 固定高度 */
-}
-
-.text-input:focus {
-    outline: none;
-    border-color: var(--secondary-color); /* 聚焦时边框颜色 */
-    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.2);
 }
 
 /* 对比结果容器样式 */
